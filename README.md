@@ -50,12 +50,11 @@ docker rm -v aseserver
 
 ### Connect to database
 
-You cann connect to your dataase using this credentials
+You can connect to your dataase using this credentials
 * Username: sa
-* Password: <empty>
+* Password:
 
-<empty> means no password (or empty string)
-
+(default password is empty or empty string)
 ```
 
 ## Using as base image for other Dockerfiles
