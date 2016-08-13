@@ -44,12 +44,11 @@ dataserver \
 
 start_db_server
 
+
 isql -Usa -P --retserverror -SSYBASE << EOF
-disk init name = "sysprocsdev",
-physname = "$ASE_DATADIR/sysprocsdev",
-size = "180M"
+disk init name = "sysprocsdev", physname = "$ASE_DATADIR/sysprocs.dat", size = "180M"
 go
-create database sybsystemprocs on sysprocsdev = 180
+create database sybsystemprocs on sysprocs = 180
 go
 EOF
 
@@ -57,6 +56,23 @@ isql -Usa -P --retserverror -SSYBASE -n -i /opt/sap/ASE-16_0/scripts/installmast
 isql -Usa -P --retserverror -SSYBASE -n -i /opt/sap/ASE-16_0/scripts/installmodel
 isql -Usa -P --retserverror -SSYBASE -n -i /opt/sap/ASE-16_0/scripts/instmsgs.ebf
 isql -Usa -P --retserverror -SSYBASE -n -i /opt/sap/ASE-16_0/scripts/installupgrade
+
+isql -Usa -P --retserverror -SSYBASE << EOF 
+disk init name = "tempdev2", physname = "$ASE_DATADIR/tempdb.dat", cntrltype = 0, dsync = true, size = "$ASE_TEMPDB_SIZE"
+go
+alter database tempdb on tempdev2 = "$ASE_TEMPDB_SIZE"
+go
+sp_cacheconfig 'default data cache', '$ASE_DEFAULT_DATA_CACHE_SIZE'
+go
+use tempdb
+go
+sp_dropsegment "default", tempdb, master
+go
+sp_dropdegment system, tempdb, master
+go
+sp_dropdegment logsegment, tempdb, master
+go
+EOF
 
 echo "Executing scripts in /entrypoint.d"
 for script in $(find /entrypoint.d -maxdepth 1 -type f | sort); do

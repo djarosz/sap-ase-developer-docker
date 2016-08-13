@@ -35,8 +35,10 @@ docker create -p 5000:5000 -v /some/dir:/var/lib/sap/datadir -h aseserver --name
 Thease enviroment variables can be used to tune master device creation. 
 Master device is created on first run.
 
-* **ASE_LOGICAL_PAGE_SIZE** (Default=4k) - which accepts same values as *dataserver -z* option
-* **ASE_MASTER_DEV_SIZE** (Default=60M) - whic accepts same values as *dataserver -b* option
+* ***ASE_LOGICAL_PAGE_SIZE*** (Default=4k) - which accepts same values as *dataserver -z* option
+* ***ASE_MASTER_DEV_SIZE*** (Default=60M) - whic accepts same values as *dataserver -b* option
+* ***ASE_TEMPDB_SIZE*** (Default=4M) - tempdb size
+* ***ASE_DEFAULT_DATA_CACHE_SIZE*** (Default=2M) - data cache size 
 
 ### Starting / stopping / removing ...
 
