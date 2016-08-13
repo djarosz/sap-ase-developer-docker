@@ -8,7 +8,7 @@ Developer edition for Linux (64bit) from
 Download installer file. Rename it to *ASE_Suite.linuxamd64.tgz* and place it
 in root directory alongside with *Dockerfile* and *build.sh*.
 
-You will also need a *busybox* (with httpd) support.
+You will also need a *busybox* (with httpd support).
 
 ## Building
 
