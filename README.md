@@ -1,7 +1,5 @@
 # Dockerfile for SAP Adaptive Server Enterprise Developer
 
-
-
 ## Required downloads and packages
 
 Before building this images you have to first download SAP Adaptive Server Enterprise 16.0
@@ -49,6 +47,15 @@ docker stop aseserver
 ...
 docker rm -v aseserver
 ...
+
+### Connect to database
+
+You cann connect to your dataase using this credentials
+* Username: sa
+* Password: <empty>
+
+<empty> means no password (or empty string)
+
 ```
 
 ## Using as base image for other Dockerfiles
