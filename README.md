@@ -46,7 +46,7 @@ docker start aseserver
 docker stop aseserver
 ...
 docker rm -v aseserver
-...
+```
 
 ### Connect to database
 
