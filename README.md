@@ -2,7 +2,7 @@
 
 
 
-## Rerequests
+## Required downloads and packages
 
 Before building this images you have to first download SAP Adaptive Server Enterprise 16.0
 Developer edition for Linux (64bit) from 
@@ -20,7 +20,7 @@ Run ./build.sh
 
 Master device is created on first run so it can tak some time to start dependeing on your hardware.
 
-*** Create
+### Create container
 
 ```
 docker create -p 5000:5000 --name aseserver sap-ase-developer
@@ -44,7 +44,7 @@ Master device is created on first run.
 
 ```
 docker start aseserver
-dd...
+...
 docker stop aseserver
 ...
 docker rm -v aseserver
