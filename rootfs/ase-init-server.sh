@@ -44,6 +44,13 @@ dataserver \
 
 start_db_server
 
+isql -Usa -P --retserverror -SSYBASE << EOF 
+disk init name = "tempdev2", physname = "$ASE_DATADIR/tempdb.dat", cntrltype = 0, dsync = true, size = "$ASE_TEMPDB_SIZE"
+go
+alter database tempdb on tempdev2 = "$ASE_TEMPDB_SIZE"
+go
+EOF
+
 
 isql -Usa -P --retserverror -SSYBASE << EOF
 disk init name = "sysprocsdev", physname = "$ASE_DATADIR/sysprocs.dat", size = "180M"
@@ -58,10 +65,6 @@ isql -Usa -P --retserverror -SSYBASE -n -i /opt/sap/ASE-16_0/scripts/instmsgs.eb
 isql -Usa -P --retserverror -SSYBASE -n -i /opt/sap/ASE-16_0/scripts/installupgrade
 
 isql -Usa -P --retserverror -SSYBASE << EOF 
-disk init name = "tempdev2", physname = "$ASE_DATADIR/tempdb.dat", cntrltype = 0, dsync = true, size = "$ASE_TEMPDB_SIZE"
-go
-alter database tempdb on tempdev2 = "$ASE_TEMPDB_SIZE"
-go
 sp_cacheconfig 'default data cache', '$ASE_DEFAULT_DATA_CACHE_SIZE'
 go
 use tempdb
