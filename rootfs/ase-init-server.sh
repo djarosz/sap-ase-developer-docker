@@ -1,5 +1,14 @@
 #!/bin/bash
 
+function dump_transaction_log {
+	DB=$1
+	echo "dump tran $DB with truncate_only"
+	isql -Usa -P --retserverror -SSYBASE << EOF 
+dump tran $DB with truncate_only
+go
+EOF
+}
+
 function start_db_server {
 	echo "Starting DB server"
 	(
@@ -10,6 +19,7 @@ function start_db_server {
 		sleep 1
 	)
 	echo "DB server startted"
+	dump_transaction_log master
 
 }
 
@@ -58,30 +68,38 @@ go
 create database sybsystemprocs on sysprocs = 180
 go
 EOF
+dump_transaction_log master
 
 isql -Usa -P --retserverror -SSYBASE -n -i /opt/sap/ASE-16_0/scripts/installmaster
+dump_transaction_log master
 isql -Usa -P --retserverror -SSYBASE -n -i /opt/sap/ASE-16_0/scripts/installmodel
+dump_transaction_log master
 isql -Usa -P --retserverror -SSYBASE -n -i /opt/sap/ASE-16_0/scripts/instmsgs.ebf
+dump_transaction_log master
 isql -Usa -P --retserverror -SSYBASE -n -i /opt/sap/ASE-16_0/scripts/installupgrade
+dump_transaction_log master
 
 isql -Usa -P --retserverror -SSYBASE << EOF 
 sp_cacheconfig 'default data cache', '$ASE_DEFAULT_DATA_CACHE_SIZE'
 go
 use tempdb
 go
-sp_dropsegment "default", tempdb, master
-go
-sp_dropdegment system, tempdb, master
-go
-sp_dropdegment logsegment, tempdb, master
-go
 EOF
+#sp_dropsegment "default", tempdb, master
+#go
+#sp_dropsegment system, tempdb, master
+#go
+#sp_dropsegment logsegment, tempdb, master
+#go
 
 echo "Executing scripts in /entrypoint.d"
 for script in $(find /entrypoint.d -maxdepth 1 -type f | sort); do
 	echo "Executing script: $script"
 	. $script
+	dump_transaction_log master
 done
 echo "Finished executing scripts in /entrypoint.d"
+
+dump_transaction_log master
 
 stop_db_server
