@@ -39,6 +39,7 @@ Master device is created on first run.
 * ***ASE_MASTER_DEV_SIZE*** (Default=60M) - whic accepts same values as *dataserver -b* option
 * ***ASE_TEMPDB_SIZE*** (Default=4M) - tempdb size
 * ***ASE_DEFAULT_DATA_CACHE_SIZE*** (Default=2M) - data cache size 
+* ***ASE_DEFAULT_CHARSET*** (Default=iso_1) - default database charset. Suported values are utf8, cp1250.
 
 ### Starting / stopping / removing ...
 
