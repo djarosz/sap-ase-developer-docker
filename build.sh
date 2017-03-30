@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "Starting busybox httpd server"
-busybox httpd -p 9999
+busybox httpd -p 172.17.0.1:9999
 echo -n "busybox httpd server started as pid "
 pgrep busybox
 
